@@ -128,5 +128,32 @@ const updateNoteHander = (request, h) => {
   }
 };
 
+const deleteNoteHandler = (request, h) => {
 
-module.exports = { addNoteHandler, getAllNotesHandler, getNotesHandler, updateNoteHander };
+  const { id } = request.params;
+
+  const idx = notes.findIndex((e) => e.id === id);
+
+  if (idx != -1){
+
+    notes.splice(idx, 1);
+
+    const responseText = {
+      'status': 'success',
+      'message': 'Catatan berhasil dihapus'
+    };
+
+    return h.response(responseText).code(200);
+
+  } else {
+
+    const responseText = {
+      'status': 'fail',
+      'message': 'Gagal menghapus catatan karena id tidak ada'
+    };
+
+    return h.response(responseText).code(404);
+  }
+};
+
+module.exports = { addNoteHandler, getAllNotesHandler, getNotesHandler, updateNoteHander, deleteNoteHandler };
